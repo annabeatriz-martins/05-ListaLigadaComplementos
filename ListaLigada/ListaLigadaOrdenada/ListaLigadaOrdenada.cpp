@@ -116,6 +116,8 @@ void inserirElemento()
 {
 	// aloca memoria dinamicamente para o novo elemento
 	NO* novo = (NO*)malloc(sizeof(NO));
+	NO* anterior = NULL;
+
 	if (novo == NULL)
 	{
 		return;
@@ -125,11 +127,6 @@ void inserirElemento()
 	cin >> novo->valor;
 	novo->prox = NULL;
 
-	//if (posicaoElemento(novo->valor) != NULL) 
-	//{
-	//	free(novo);
-	//	cout << "Elemento ja existe" << endl;
-	//}
 
 	if (primeiro == NULL)
 	{
@@ -137,12 +134,19 @@ void inserirElemento()
 	}
 	else
 	{
-		// procura o final da lista
 		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
+		while (aux->prox != NULL) 
+		{
+			if(aux->valor > novo->valor)
+			{
+				aux = anterior->prox;
+				break;
+			}
+			novo->prox = aux;
+			//aux = aux->prox;
 		}
-		aux->prox = novo;
+		anterior->prox = novo;
+		//aux->prox = novo;
 	}
 }
 
