@@ -125,6 +125,12 @@ void inserirElemento()
 	cin >> novo->valor;
 	novo->prox = NULL;
 
+	//if (posicaoElemento(novo->valor) != NULL) 
+	//{
+	//	free(novo);
+	//	cout << "Elemento ja existe" << endl;
+	//}
+
 	if (primeiro == NULL)
 	{
 		primeiro = novo;
