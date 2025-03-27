@@ -8,6 +8,7 @@ struct NO {
 };
 
 NO* primeiro = NULL;
+NO* anterior = NULL;
 
 // headers
 void menu();
@@ -17,7 +18,6 @@ void exibirElementos();
 void inserirElemento();
 void excluirElemento();
 void buscarElemento();
-NO* posicaoElemento(int numero);
 //--------------------------
 
 
@@ -116,7 +116,6 @@ void inserirElemento()
 {
 	// aloca memoria dinamicamente para o novo elemento
 	NO* novo = (NO*)malloc(sizeof(NO));
-	NO* anterior = NULL;
 
 	if (novo == NULL)
 	{
@@ -127,37 +126,110 @@ void inserirElemento()
 	cin >> novo->valor;
 	novo->prox = NULL;
 
-
-	if (primeiro == NULL)
+	//se alista tiver vazia ou o primeiro é maior q o novo valor
+	if (primeiro == NULL || primeiro->valor > novo->valor)
 	{
+		novo->prox = primeiro;
 		primeiro = novo;
+		return;
 	}
 	else
 	{
+		//percorre a lista pra achar o ponto certo para inserir o novo valor
 		NO* aux = primeiro;
-		while (aux->prox != NULL) 
+		while (aux->prox != NULL && aux->valor < novo->valor)
 		{
-			if(aux->valor > novo->valor)
-			{
+			//if()
+			//{
+				novo->prox = aux;
 				aux = anterior->prox;
+				anterior->prox = novo;
 				break;
-			}
-			novo->prox = aux;
-			//aux = aux->prox;
+			//}
+			aux = aux->prox;
 		}
-		anterior->prox = novo;
-		//aux->prox = novo;
+		aux->prox = novo;
+		return;
 	}
 }
 
 void excluirElemento()
 {
+	int num = 0;
+	bool apagou = false;
+	bool vazio = false;
 
+	cout << "Digite um numero: ";
+	cin >> num;
+
+	NO* aux = primeiro;
+	NO* anterior = NULL;
+
+	if (primeiro == NULL) 
+	{
+		cout << "Lista vazia" << endl;
+		vazio = true;
+	}
+
+	while (aux != NULL && aux->valor <= num)
+	{
+		if(aux->valor == num)
+		{
+			if(anterior == NULL)
+			{
+				primeiro = aux->prox;
+			}
+			else
+			{
+				anterior->prox = aux->prox;
+			}
+
+			free(aux);
+			cout << "Elemento excluido" << endl;
+			apagou = true;
+			break;
+		}
+		anterior = aux;
+		aux = aux->prox;
+	}
+
+	if (!apagou && !vazio) 
+	{
+		cout << "Elemento nao encontrado" << endl;
+	}
 }
 
 void buscarElemento()
 {
+	int num = 0;
+	bool achei = false;
 
+	cout << "Digite um numero: ";
+	cin >> num;
+
+	NO* aux = primeiro;
+
+	if (primeiro == NULL) 
+	{
+		cout << "Lista vazia" << endl;
+		return;
+	}
+
+	while(aux != NULL && aux->valor <= num) 
+	{
+		if (aux->valor == num) 
+		{
+			cout << "Elemento encontrado" << endl;
+			achei = true;
+			return;
+		}
+		aux = aux->prox;
+	}
+
+	if (!achei) 
+	{
+		cout << "Nao encontrado" << endl;
+	}
 }
 
 
